@@ -1,13 +1,11 @@
 "use strict";
 
-var Block = require('./block')
-var canvas = document.getElementById('tetris'),  //获取canvas元素
-    ctx = canvas.getContext('2d');  //获取画图环境，指明为2d
+var Tetris = require('./tetris')
 
 function gameStart(){
-    let b1 = new Block(ctx)
-    b1.draw(1,1)
-    b1.draw(100,1)
+    let randNum = Math.floor(Math.random()*7)
+    let tetris = new Tetris(randNum)
+    tetris.draw();
 }
 
 function keyProess(e){
