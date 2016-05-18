@@ -1,0 +1,14 @@
+.wrap{ 
+	width:425px;
+	margin:0 auto;
+} 
+
+#tetris{
+	background:#000;
+	float:left;
+}
+
+#block{
+	background:#000;
+	float:right;
+}
