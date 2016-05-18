@@ -1,6 +1,6 @@
 "use strict";
 
-var Block = require('./tetrisBlock')
+var Block = require('./block')
 
 var canvas = document.getElementById('tetris'),  //获取canvas元素
     ct = canvas.getContext('2d');  //获取画图环境，指明为2d

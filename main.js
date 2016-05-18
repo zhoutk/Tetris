@@ -13,7 +13,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({width: 800, height: 700})
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/Tetris.html')
+  mainWindow.loadURL('file://' + __dirname + '/tetris.html')
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
