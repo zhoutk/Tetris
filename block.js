@@ -3,19 +3,19 @@
 const BLOCKWIDTH = 30;
 
 class Block{
-    constructor(ct,fillColor,strokeColor){
-        this.ct = ct;
+    constructor(ctx,fillColor,strokeColor){
+        this.ctx = ctx;
         this.width = BLOCKWIDTH;
         this.fillColor = fillColor || 'blue';
         this.strokeColor = strokeColor || 'white';
     }
     draw(x,y){
-        this.ct.save();
-        this.ct.fillStyle = this.fillColor;
-        this.ct.fillRect(x,y,this.width-2,this.width-2)
-        this.ct.strokeStyle = this.strokeColor;
-        this.ct.strokeRect(x,y,this.width-2,this.width-2);
-        this.ct.restore();
+        this.ctx.save();
+        this.ctx.fillStyle = this.fillColor;
+        this.ctx.fillRect(x,y,this.width-2,this.width-2)
+        this.ctx.strokeStyle = this.strokeColor;
+        this.ctx.strokeRect(x,y,this.width-2,this.width-2);
+        this.ctx.restore();
     }
 }
 

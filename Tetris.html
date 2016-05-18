@@ -5,7 +5,7 @@
     <title>Tetris</title>
     <link rel="stylesheet" type="text/css"  href="./tetris.css" />
 </head>
-<body>
+<body onload="gameStart()" onkeyup="keyUpProess()">
 <div class="wrap">
     <canvas id="tetris" width="300" height="600"></canvas> 
     <canvas id="block" width="120" height="120"></canvas> 
