@@ -10,11 +10,12 @@ function gameStart(){
     b1.draw(100,1)
 }
 
-function keyUpProess(e){
-    e = e || window.event;  
+function keyProess(e){
+    // e = e || window.event;  
     switch(e.keyCode){  
         case 37:  //left key up
-            alert('left')
+            // alert('left')
+            console.log('left')
             break;  
         case 38:  //up key up
             alert('up')
@@ -27,3 +28,9 @@ function keyUpProess(e){
             break;  
     }  
 }
+
+document.body.onkeyup = function(e){
+    keyProess(e);
+}
+
+document.body.onload = gameStart();
