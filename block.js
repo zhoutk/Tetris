@@ -12,9 +12,9 @@ class Block{
     draw(x,y){
         this.ctx.save();
         this.ctx.fillStyle = this.fillColor;
-        this.ctx.fillRect(x,y,this.width-2,this.width-2)
+        this.ctx.fillRect(x*this.width,y*this.width,this.width-2,this.width-2)
         this.ctx.strokeStyle = this.strokeColor;
-        this.ctx.strokeRect(x,y,this.width-2,this.width-2);
+        this.ctx.strokeRect(x*this.width,y*this.width,this.width-2,this.width-2);
         this.ctx.restore();
     }
 }

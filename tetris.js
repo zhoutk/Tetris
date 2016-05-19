@@ -24,15 +24,24 @@ const COLORS = [
 
 class Tetris {
     constructor(shape){
+        this.data = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
         this.shape = shape;
         this.x = 3;
-        this.y = 1;
+        this.y = -1;
         this.block = new Block(ctx, COLORS[shape]);
-    }
-    draw(){
+
         for(let i = 0; i < SHAPES[this.shape].length; i++){
             if(SHAPES[this.shape][i]){
-                this.block.draw(this.x * 30 + (i % 4) * 30, this.y * 30 + (Math.floor(i/4)) * 30)
+                this.data[i % 4][1 + Math.floor(i/4)] = 1;
+            }
+        }
+    }
+    draw(){
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(this.data[i][j]){
+                    this.block.draw(this.x + i, this.y + j)
+                }
             }
         }
     }
