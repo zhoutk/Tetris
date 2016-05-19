@@ -27,7 +27,7 @@ class Tetris {
         this.data = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
         this.shape = shape;
         this.x = 3;
-        this.y = -1;
+        this.y = 0;
         this.block = new Block(ctx, COLORS[shape]);
 
         for(let i = 0; i < SHAPES[this.shape].length; i++){
@@ -44,6 +44,23 @@ class Tetris {
                 }
             }
         }
+    }
+    rotate(){  
+        for(let layer = 0; layer < 4; layer++){  
+            let first = layer;                
+            let last = 4-1-layer;                 
+            for(let i = layer; i < last; i++){  
+                let offset = i-layer;  
+                let top = this.data[first][i];  
+                this.data[first][i] = this.data[last-offset][first];  
+                this.data[last-offset][first] = this.data[last][last-offset];  
+                this.data[last][last-offset] = this.data[i][last];  
+                this.data[i][last] = top;  
+            }  
+        }  
+    }  
+    erase(){
+        ctx.clearRect(this.x*30 -1, this.y*30 -1, 120, 120)
     }
 }
 

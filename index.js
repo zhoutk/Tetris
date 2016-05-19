@@ -1,10 +1,10 @@
 "use strict";
 
 var Tetris = require('./tetris')
+var randNum = Math.floor(Math.random()*7)
+var tetris = new Tetris(randNum)
 
 function gameStart(){
-    let randNum = Math.floor(Math.random()*7)
-    let tetris = new Tetris(randNum)
     tetris.draw();
 }
 
@@ -16,7 +16,9 @@ function keyProess(e){
             console.log('left')
             break;  
         case 38:  //up key up
-            alert('up')
+            tetris.erase() 
+            tetris.rotate()
+            tetris.draw()
             break;  
         case 39:  //right key up
             alert('right')
