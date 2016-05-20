@@ -23,12 +23,17 @@ const COLORS = [
 ];
 
 class Tetris {
-    constructor(shape){
+    constructor(shape,ct){
         this.data = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-        this.shape = shape;
-        this.x = 3;
-        this.y = 0;
-        this.block = new Block(ctx, COLORS[shape]);
+        this.shape = shape || 0;
+        this.x =  3;
+        this.y =  0;
+        if(ct){
+            this.x = 0;
+        }else{
+            ct = ctx;
+        }
+        this.block = new Block(ct, COLORS[shape]);
 
         for(let i = 0; i < SHAPES[this.shape].length; i++){
             if(SHAPES[this.shape][i]){
