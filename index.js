@@ -12,8 +12,7 @@ function keyProess(e){
     // e = e || window.event;  
     switch(e.keyCode){  
         case 37:  //left key up
-            // alert('left')
-            console.log('left press : ' + tetris.canSee(0,1));
+            tetris.moveLeft();
             break;  
         case 38:  //up key up
             tetris.erase() 
@@ -21,7 +20,7 @@ function keyProess(e){
             tetris.draw()
             break;  
         case 39:  //right key up
-            alert('right')
+            tetris.moveRight();
             break;  
         case 40:  //down key up
             alert('down')
