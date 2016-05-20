@@ -1,8 +1,6 @@
 "use strict";
 
 var Block = require('./block')
-var canvas = document.getElementById('tetris'),  //获取canvas元素
-    ctx = canvas.getContext('2d');  //获取画图环境，指明为2d
 const SHAPES = [
     [ 1, 1, 1, 1 ],
     [ 1, 1, 1, 0,
@@ -23,17 +21,12 @@ const COLORS = [
 ];
 
 class Tetris {
-    constructor(shape,ct){
+    constructor(shape,ctx,x,y){
         this.data = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
         this.shape = shape || 0;
-        this.x =  3;
-        this.y =  0;
-        if(ct){
-            this.x = 0;
-        }else{
-            ct = ctx;
-        }
-        this.block = new Block(ct, COLORS[shape]);
+        this.x =  x || 0;
+        this.y =  y || 0;
+        this.block = new Block(ctx, COLORS[shape]);
 
         for(let i = 0; i < SHAPES[this.shape].length; i++){
             if(SHAPES[this.shape][i]){
