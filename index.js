@@ -21,7 +21,10 @@ function keyProess(e){
             tetris.moveRight();
             break;  
         case 40:  //down key up
-            alert('down')
+            tetris.moveDown();
+            randNum = Math.floor(Math.random()*7)
+            tetris = new Tetris(randNum)
+            tetris.draw();
             break;  
     }  
 }

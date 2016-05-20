@@ -36,6 +36,32 @@ class Tetris {
             }
         }
     }
+    moveDown(){
+        let h = this.y;
+        while(true){
+            let flag = true;
+            for(let i = 0; i < 4; i++){
+                for(let j = 0; j < 4; j++){
+                    if(this.data[i][j] && (j ==3 || this.data[i][j+1] == 0)){
+                        if(!this.canSee(this.x + i, this.y + 1 + j)){
+                            flag = false;
+                            break;
+                        }
+                    }
+                }
+                if(!flag){
+                    break;
+                }
+            }
+            if(flag){
+                this.erase();
+                this.y++;
+                this.draw();
+            }else{
+                break;
+            }
+        }
+    }
     moveRight(){
         for(let i = 0; i < 4; i++){
             for(let j = 0; j < 4; j++){
