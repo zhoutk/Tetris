@@ -66,6 +66,30 @@ class Tetris {
         this.draw();
         return true;
     }
+    rotate(){
+        let b = [[],[],[],[]];
+        for(let i=0;i<4;i++){  
+            for(let j=0;j<4;j++){  
+                b[i][j] = this.data[j][3-i];  
+            }  
+        }  
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(this.data[i][j] == 0 && b[i][j] == 1){
+                    if(!this.canSee(this.x  + i, this.y + j)){
+                        return false;
+                    }
+                }
+            }
+        }
+        this.erase();
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                this.data[i][j] = b[i][j];  
+            }
+        }
+        this.draw();
+    }
     draw(){
         for(let i = 0; i < 4; i++){
             for(let j = 0; j < 4; j++){
@@ -75,20 +99,6 @@ class Tetris {
             }
         }
     }
-    rotate(){  
-        for(let layer = 0; layer < 4; layer++){  
-            let first = layer;                
-            let last = 4-1-layer;                 
-            for(let i = layer; i < last; i++){  
-                let offset = i-layer;  
-                let top = this.data[first][i];  
-                this.data[first][i] = this.data[last-offset][first];  
-                this.data[last-offset][first] = this.data[last][last-offset];  
-                this.data[last][last-offset] = this.data[i][last];  
-                this.data[i][last] = top;  
-            }  
-        }  
-    }  
     erase(){
         for(let i = 0; i < 4; i++){
             for(let j = 0; j < 4; j++){

@@ -15,9 +15,7 @@ function keyProess(e){
             tetris.moveLeft();
             break;  
         case 38:  //up key up
-            tetris.erase() 
             tetris.rotate()
-            tetris.draw()
             break;  
         case 39:  //right key up
             tetris.moveRight();
