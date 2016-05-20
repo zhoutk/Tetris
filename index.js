@@ -11,37 +11,33 @@ var tetris = new Tetris(randNum,ctx,3)
 var tetrisNext = new Tetris(nextNum,blockCtx)
 
 const LVSCS = [0,1,3,6,10]
-var levels = 0, scores = 0;
+var gameState = false, levels = 0, scores = 0;
 
 function gameStart(){
+    gameStart = true;
     tetris.draw();
     tetrisNext.draw()
 }
 
 function keyProess(e){
-    // e = e || window.event;  
-    switch(e.keyCode){  
-        case 37:  //left key up
-            tetris.moveLeft();
+    if(gameStart){
+        switch(e.keyCode){  
+            case 37:  //left key up
+                tetris.moveLeft();
             break;  
-        case 38:  //up key up
-            tetris.rotate()
+            case 38:  //up key up
+                tetris.rotate()
             break;  
-        case 39:  //right key up
-            tetris.moveRight();
+            case 39:  //right key up
+                tetris.moveRight();
             break;  
-        case 40:  //down key up
-        case 32:  //space key up
-            tetris.moveDown();
+            case 40:  //down key up
+                case 32:  //space key up
+                tetris.moveDown();
             randNum = nextNum; 
             nextNum = Math.floor(Math.random()*7)
             tetris = new Tetris(randNum,ctx,3)
-            if(tetris.canDraw()){
-                let level = tetris.cleanup();
-                levels += level;
-                scores += LVSCS[level]
-                document.getElementById('levelShow').value = levels;
-                document.getElementById('scoreShow').value = scores;
+            if(tetris.canDrawNext()){
                 tetris.draw();
                 tetrisNext.erase();
                 tetrisNext = new Tetris(nextNum,blockCtx)
@@ -49,10 +45,13 @@ function keyProess(e){
             }else{
                 levels = 0;
                 scores = 0;
+                tetris.draw();
+                gameStart = false;
                 alert("game is over.")
             }
             break;  
-    }  
+        }  
+    }
 }
 
 document.body.onkeydown = function(e){

@@ -19,6 +19,13 @@ const SHAPES = [
 const COLORS = [
     'brown', 'olive', 'blue', 'chocolate', 'gray', 'green', 'purple'
 ];
+const SOUNDS = {
+    collision : document.getElementById("audio_collision"),
+    down : document.getElementById("audio_move"),
+    rotate : document.getElementById("audio_pop"),
+    gameover : document.getElementById("audio_gameover"),
+    score : document.getElementById("audio_score")
+}
 
 class Tetris {
     constructor(shape,ctx,x,y){
@@ -47,6 +54,7 @@ class Tetris {
             if(count == 0){
                 let level = h;
                 levelCount++;
+                SOUNDS['score'].play();
                 while(level >= 0){
                     let ct = 0;
                     for(let j = 0; j < 10; j++){
@@ -94,6 +102,15 @@ class Tetris {
                 this.y++;
                 this.draw();
             }else{
+                let level = this.cleanup();
+                if(level > 0){
+                    levels += level;
+                    scores += LVSCS[level]
+                    document.getElementById('levelShow').value = levels;
+                    document.getElementById('scoreShow').value = scores;
+                }else{
+                    SOUNDS['down'].play()
+                }
                 break;
             }
         }
@@ -150,13 +167,15 @@ class Tetris {
                 this.data[i][j] = b[i][j];  
             }
         }
+        SOUNDS['rotate'].play();
         this.draw();
     }
-    canDraw(){
+    canDrawNext(){
         for(let i = 0; i < 4; i++){
             for(let j = 0; j < 4; j++){
                 if(this.data[i][j]){
                     if(!this.canSee(this.x + i, this.y + j)){
+                        SOUNDS['gameover'].play();
                         return false;
                     }
                 }
