@@ -13,7 +13,7 @@ function keyProess(e){
     switch(e.keyCode){  
         case 37:  //left key up
             // alert('left')
-            console.log('left')
+            console.log('left press : ' + tetris.canSee(0,1));
             break;  
         case 38:  //up key up
             tetris.erase() 

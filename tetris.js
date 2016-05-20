@@ -26,7 +26,7 @@ class Tetris {
     constructor(shape){
         this.data = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
         this.shape = shape;
-        this.x = 3;
+        this.x = 0;
         this.y = 0;
         this.block = new Block(ctx, COLORS[shape]);
 
@@ -60,7 +60,18 @@ class Tetris {
         }  
     }  
     erase(){
-        ctx.clearRect(this.x*30 -1, this.y*30 -1, 120, 120)
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(this.data[i][j]){
+                    this.block.erase(this.x + i, this.y + j)
+                }
+            }
+        }
+    }
+    canSee(x,y){
+        if(x < 0 || x > 9 || y > 19 || y < 0)
+            return false;
+        return this.block.canSee(x,y) == 0;
     }
 }
 
