@@ -4,6 +4,8 @@
 - 全面应用面向对象的设计思想，让功能内聚性强。
 - 把七种方块想成独立的“生物”对象，让它能“看”到周围的世界。
 - 没有使用传统的大的二维数组来表示游戏场面状态，而是让tetris自己去“看”。
+- 使用html5的canvas来完成，比较象cgi编程。
+- 使用最少的canvas特性，只用了fillRect,strokeRect,getImageData,clearRect等几个函数。
 
 ##运行方法
 项目采用node.js+electron进行桌面开发，因此请先安装相关系统：
