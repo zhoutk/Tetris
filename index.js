@@ -10,6 +10,9 @@ var nextNum = Math.floor(Math.random()*7)
 var tetris = new Tetris(randNum,ctx,3)
 var tetrisNext = new Tetris(nextNum,blockCtx)
 
+const LVSCS = [0,1,3,6,10]
+var levels = 0, scores = 0;
+
 function gameStart(){
     tetris.draw();
     tetrisNext.draw()
@@ -34,19 +37,25 @@ function keyProess(e){
             nextNum = Math.floor(Math.random()*7)
             tetris = new Tetris(randNum,ctx,3)
             if(tetris.canDraw()){
-                tetris.cleanup();
+                let level = tetris.cleanup();
+                levels += level;
+                scores += LVSCS[level]
+                document.getElementById('levelShow').value = levels;
+                document.getElementById('scoreShow').value = scores;
                 tetris.draw();
                 tetrisNext.erase();
                 tetrisNext = new Tetris(nextNum,blockCtx)
                 tetrisNext.draw()
             }else{
+                levels = 0;
+                scores = 0;
                 alert("game is over.")
             }
             break;  
     }  
 }
 
-document.body.onkeyup = function(e){
+document.body.onkeydown = function(e){
     keyProess(e);
 }
 

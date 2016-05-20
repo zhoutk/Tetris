@@ -36,7 +36,7 @@ class Tetris {
         }
     }
     cleanup(){
-        let h = 19;
+        let h = 19, levelCount = 0;
         while(h >= 0){
             let count = 0;
             for(let i = 0; i< 10; i++){
@@ -46,12 +46,13 @@ class Tetris {
             } 
             if(count == 0){
                 let level = h;
+                levelCount++;
                 while(level >= 0){
                     let ct = 0;
                     for(let j = 0; j < 10; j++){
+                        this.block.erase(j,level);
                         if(this.canSee(j,level-1)){
                             ct++;
-                            this.block.erase(j,level);
                         }else{
                             let bk = new Block(this.ctx,this.block.getColor(j,level-1)) 
                             bk.draw(j,level)
@@ -69,6 +70,7 @@ class Tetris {
                 h--;
             }
         }
+        return levelCount;
     }
     moveDown(){
         let h = this.y;

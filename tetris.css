@@ -8,7 +8,15 @@
 	float:left;
 }
 
+.rightBlock{
+    width:122px;
+	float:right;
+}
+
+.rightBlock input{
+    width:120px;
+}
+
 #block{
 	background:#000;
-	float:right;
 }
