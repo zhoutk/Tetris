@@ -24,7 +24,11 @@ function keyProess(e){
             tetris.moveDown();
             randNum = Math.floor(Math.random()*7)
             tetris = new Tetris(randNum)
-            tetris.draw();
+            if(tetris.canDraw()){
+                tetris.draw();
+            }else{
+                alert("game is over.")
+            }
             break;  
     }  
 }

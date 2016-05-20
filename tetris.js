@@ -116,6 +116,18 @@ class Tetris {
         }
         this.draw();
     }
+    canDraw(){
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(this.data[i][j]){
+                    if(!this.canSee(this.x + i, this.y + j)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
     draw(){
         for(let i = 0; i < 4; i++){
             for(let j = 0; j < 4; j++){
