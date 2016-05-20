@@ -34,6 +34,7 @@ function keyProess(e){
             nextNum = Math.floor(Math.random()*7)
             tetris = new Tetris(randNum,ctx,3)
             if(tetris.canDraw()){
+                tetris.cleanup();
                 tetris.draw();
                 tetrisNext.erase();
                 tetrisNext = new Tetris(nextNum,blockCtx)

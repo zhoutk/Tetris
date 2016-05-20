@@ -24,6 +24,7 @@ class Tetris {
     constructor(shape,ctx,x,y){
         this.data = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
         this.shape = shape || 0;
+        this.ctx = ctx;
         this.x =  x || 0;
         this.y =  y || 0;
         this.block = new Block(ctx, COLORS[shape]);
@@ -31,6 +32,41 @@ class Tetris {
         for(let i = 0; i < SHAPES[this.shape].length; i++){
             if(SHAPES[this.shape][i]){
                 this.data[i % 4][1 + Math.floor(i/4)] = 1;
+            }
+        }
+    }
+    cleanup(){
+        let h = 19;
+        while(h >= 0){
+            let count = 0;
+            for(let i = 0; i< 10; i++){
+                if(this.canSee(i,h)){
+                    count++;
+                }
+            } 
+            if(count == 0){
+                let level = h;
+                while(level >= 0){
+                    let ct = 0;
+                    for(let j = 0; j < 10; j++){
+                        if(this.canSee(j,level-1)){
+                            ct++;
+                            this.block.erase(j,level);
+                        }else{
+                            let bk = new Block(this.ctx,this.block.getColor(j,level-1)) 
+                            bk.draw(j,level)
+                        }
+                    }
+                    if(ct == 10){
+                        break;
+                    }else{
+                        level--;
+                    }
+                }
+            }else if(count == 10){
+                break;
+            }else{
+                h--;
             }
         }
     }

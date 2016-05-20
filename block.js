@@ -24,6 +24,10 @@ class Block{
         let c = this.ctx.getImageData(x*this.width+9,y*this.width+9,1,1)
         return c.data[0] | c.data[1] | c.data[2] | c.data[3];
     }
+    getColor(x,y){
+        let c = this.ctx.getImageData(x*this.width+9,y*this.width+9,1,1)
+        return 'rgba('+c.data[0]+','+c.data[1]+','+c.data[2]+','+c.data[3]+')';
+    }
 }
 
 module.exports = Block;
