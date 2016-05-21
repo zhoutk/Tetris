@@ -19,7 +19,7 @@ function gameStart(){
     document.getElementById('speedShow').value = STEP + 1;
     randNum = Math.floor(Math.random()*7)
     nextNum = Math.floor(Math.random()*7)
-    tetris = new Tetris(randNum,ctx,3)
+    tetris = new Tetris(randNum,ctx,3,-1)
     tetrisNext = new Tetris(nextNum,blockCtx)
     gameState = true;
     tetris.draw();
@@ -31,7 +31,7 @@ function gameStart(){
 function generateNext(){
     randNum = nextNum; 
     nextNum = Math.floor(Math.random()*7)
-    tetris = new Tetris(randNum,ctx,3)
+    tetris = new Tetris(randNum,ctx,3,-1)
     if(tetris.canDrawNext()){
         tetris.draw();
         tetrisNext.erase();
@@ -48,7 +48,12 @@ function generateNext(){
         document.getElementById('playControl').onclick = playButtonClick;
         document.getElementById('playControl').onmouseout = cursorMoveOutplayButton;
         document.getElementById('playControl').onmouseover = cursorOverPlayButton;
-        alert("game is over.")
+
+        ctx.save()
+        ctx.fillStyle = "yellow";
+        ctx.font = "bold 30px sans-serif";
+        ctx.fillText("游戏结束！",80,260);
+        ctx.restore();
     }
 }
 

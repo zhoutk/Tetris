@@ -107,6 +107,11 @@ class Tetris {
                 scores += LVSCS[level]
                 document.getElementById('levelShow').value = levels;
                 document.getElementById('scoreShow').value = scores;
+                if(Math.floor(scores / STEPVAL) != STEP){
+                    clearInterval(interval)
+                    interval = setInterval( tick, TICKVAL - ++STEP * STEPVAL );
+                    document.getElementById('speedShow').value = STEP + 1;
+                }
             }else{
                 SOUNDS['down'].play()
             }
@@ -240,7 +245,7 @@ class Tetris {
         }
     }
     canSee(x,y){
-        if(x < 0 || x > 9 || y > 19 || y < 0)
+        if(x < 0 || x > 9 || y > 19)
             return false;
         return this.block.canSee(x,y) == 0;
     }
