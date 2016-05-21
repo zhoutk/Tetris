@@ -76,6 +76,8 @@ function keyProess(e){
                 tetris.moveRight();
             break;  
             case 40:  //down key up
+                tick();
+            break;
             case 32:  //space key up
                 if(!tetris.moveDown()){
                     generateNext();
