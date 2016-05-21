@@ -32,22 +32,23 @@ function keyProess(e){
                 tetris.moveRight();
             break;  
             case 40:  //down key up
-                case 32:  //space key up
-                tetris.moveDown();
-            randNum = nextNum; 
-            nextNum = Math.floor(Math.random()*7)
-            tetris = new Tetris(randNum,ctx,3)
-            if(tetris.canDrawNext()){
-                tetris.draw();
-                tetrisNext.erase();
-                tetrisNext = new Tetris(nextNum,blockCtx)
-                tetrisNext.draw()
-            }else{
-                levels = 0;
-                scores = 0;
-                tetris.draw();
-                gameStart = false;
-                alert("game is over.")
+            case 32:  //space key up
+                if(!tetris.moveDown()){
+                    randNum = nextNum; 
+                    nextNum = Math.floor(Math.random()*7)
+                    tetris = new Tetris(randNum,ctx,3)
+                    if(tetris.canDrawNext()){
+                        tetris.draw();
+                        tetrisNext.erase();
+                        tetrisNext = new Tetris(nextNum,blockCtx)
+                        tetrisNext.draw()
+                    }else{
+                        levels = 0;
+                        scores = 0;
+                        tetris.draw();
+                        gameStart = false;
+                        alert("game is over.")
+                    }
             }
             break;  
         }  

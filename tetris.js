@@ -80,6 +80,39 @@ class Tetris {
         }
         return levelCount;
     }
+    moveNext(){
+        let flag = true;
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(this.data[i][j] && (j ==3 || this.data[i][j+1] == 0)){
+                    if(!this.canSee(this.x + i, this.y + 1 + j)){
+                        flag = false;
+                        break;
+                    }
+                }
+            }
+            if(!flag){
+                break;
+            }
+        }
+        if(flag){
+            this.erase();
+            this.y++;
+            this.draw();
+            return true;
+        }else{
+            let level = this.cleanup();
+            if(level > 0){
+                levels += level;
+                scores += LVSCS[level]
+                document.getElementById('levelShow').value = levels;
+                document.getElementById('scoreShow').value = scores;
+            }else{
+                SOUNDS['down'].play()
+            }
+            return false;
+        }
+    }
     moveDown(){
         let h = this.y;
         while(true){
