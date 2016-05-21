@@ -20,3 +20,11 @@
 #block{
 	background:#000;
 }
+
+#playControl{
+    margin:30px;
+    padding:20px;
+    cursor:pointer;
+	background:green;
+    color:white;
+}

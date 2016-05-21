@@ -5,18 +5,21 @@ var canvasTeteris = document.getElementById('tetris'),  //获取canvas元素
     ctx = canvasTeteris.getContext('2d');  //获取画图环境，指明为2d
 var canvasPreview = document.getElementById('block'),  
     blockCtx = canvasPreview.getContext('2d');  
-var randNum = Math.floor(Math.random()*7)
-var nextNum = Math.floor(Math.random()*7)
-var tetris = new Tetris(randNum,ctx,3)
-var tetrisNext = new Tetris(nextNum,blockCtx)
+var randNum, nextNum, tetris, tetrisNext;
 
 const LVSCS = [0,1,3,6,10]
 var gameState = false, levels = 0, scores = 0;
 var interval, TICKVAL = 250;
 
 function gameStart(){
+    ctx.clearRect(0,0,300,600)
+    blockCtx.clearRect(0,0,120,120)
+    randNum = Math.floor(Math.random()*7)
+    nextNum = Math.floor(Math.random()*7)
+    tetris = new Tetris(randNum,ctx,3)
+    tetrisNext = new Tetris(nextNum,blockCtx)
     clearInterval(interval)
-    gameStart = true;
+    gameState = true;
     tetris.draw();
     tetrisNext.draw()
     interval = setInterval( tick, TICKVAL );
@@ -35,8 +38,12 @@ function generateNext(){
         levels = 0;
         scores = 0;
         tetris.draw();
-        gameStart = false;
+        gameState = false;
         clearInterval(interval)
+        document.getElementById('playControl').style.backgroundColor = 'green';
+        document.getElementById('playControl').onclick = playButtonClick;
+        document.getElementById('playControl').onmouseout = cursorMoveOutplayButton;
+        document.getElementById('playControl').onmouseover = cursorOverPlayButton;
         alert("game is over.")
     }
 }
@@ -48,7 +55,7 @@ function tick(){
 }
 
 function keyProess(e){
-    if(gameStart){
+    if(gameState){
         switch(e.keyCode){  
             case 37:  //left key up
                 tetris.moveLeft();
@@ -73,4 +80,24 @@ document.body.onkeydown = function(e){
     keyProess(e);
 }
 
-document.body.onload = gameStart();
+function cursorMoveOutplayButton(){
+    document.getElementById('playControl').style.backgroundColor = 'green'
+}
+
+function cursorOverPlayButton(){
+    document.getElementById('playControl').style.backgroundColor = 'red'
+}
+
+function playButtonClick(){
+    document.getElementById('playControl').onclick = false;
+    document.getElementById('playControl').onmouseout = false;
+    document.getElementById('playControl').onmouseover = false;
+    document.getElementById('playControl').style.backgroundColor = 'gray'
+    gameStart();
+}
+
+document.getElementById('playControl').onmouseout = cursorMoveOutplayButton;
+document.getElementById('playControl').onmouseover = cursorOverPlayButton;
+document.getElementById('playControl').onclick = playButtonClick;
+
+// document.body.onload = gameStart();
