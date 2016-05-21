@@ -141,6 +141,11 @@ class Tetris {
                     scores += LVSCS[level]
                     document.getElementById('levelShow').value = levels;
                     document.getElementById('scoreShow').value = scores;
+                    if(Math.floor(scores / STEPVAL) != STEP){
+                        clearInterval(interval)
+                        interval = setInterval( tick, TICKVAL - ++STEP * STEPVAL );
+                        document.getElementById('speedShow').value = STEP + 1;
+                    }
                 }else{
                     SOUNDS['down'].play()
                 }

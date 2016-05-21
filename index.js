@@ -9,19 +9,22 @@ var randNum, nextNum, tetris, tetrisNext;
 
 const LVSCS = [0,1,3,6,10]
 var gameState = false, levels = 0, scores = 0;
-var interval, TICKVAL = 250;
+var interval, TICKVAL = 450, STEPVAL = 50, STEP = 0;
 
 function gameStart(){
     ctx.clearRect(0,0,300,600)
     blockCtx.clearRect(0,0,120,120)
+    document.getElementById('levelShow').value = levels;
+    document.getElementById('scoreShow').value = scores;
+    document.getElementById('speedShow').value = STEP + 1;
     randNum = Math.floor(Math.random()*7)
     nextNum = Math.floor(Math.random()*7)
     tetris = new Tetris(randNum,ctx,3)
     tetrisNext = new Tetris(nextNum,blockCtx)
-    clearInterval(interval)
     gameState = true;
     tetris.draw();
     tetrisNext.draw()
+    clearInterval(interval)
     interval = setInterval( tick, TICKVAL );
 }
 
@@ -37,6 +40,7 @@ function generateNext(){
     }else{
         levels = 0;
         scores = 0;
+        STEP = 0;
         tetris.draw();
         gameState = false;
         clearInterval(interval)
