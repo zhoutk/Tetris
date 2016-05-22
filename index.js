@@ -5,11 +5,17 @@ var canvasTeteris = document.getElementById('tetris'),  //获取canvas元素
     ctx = canvasTeteris.getContext('2d');  //获取画图环境，指明为2d
 var canvasPreview = document.getElementById('block'),  
     blockCtx = canvasPreview.getContext('2d');  
-var randNum, nextNum, tetris, tetrisNext;
+var randNum, nextNum, rTimes = 0, nextRtimes = 0, tetris, tetrisNext;
 
 const LVSCS = [0,1,3,6,10]
 var gameState = false, levels = 0, scores = 0;
 var interval, TICKVAL = 450, STEPVAL = 50, STEP = 0;
+
+function tetrisInit(tetris, rTimes){
+    for(let i = 0; i < rTimes; i++){
+        tetris.rotate();
+    }
+}
 
 function gameStart(){
     ctx.clearRect(0,0,300,600)
@@ -21,6 +27,9 @@ function gameStart(){
     nextNum = Math.floor(Math.random()*7)
     tetris = new Tetris(randNum,ctx,3,-1)
     tetrisNext = new Tetris(nextNum,blockCtx)
+    nextRtimes = Math.floor(Math.random()*4);
+    rTimes = nextRtimes;
+    tetrisInit(tetrisNext,rTimes);
     gameState = true;
     tetris.draw();
     tetrisNext.draw()
@@ -34,8 +43,12 @@ function generateNext(){
     tetris = new Tetris(randNum,ctx,3,-1)
     if(tetris.canDrawNext()){
         tetris.draw();
+        tetrisInit(tetris,rTimes);
         tetrisNext.erase();
         tetrisNext = new Tetris(nextNum,blockCtx)
+        nextRtimes = Math.floor(Math.random()*4);
+        rTimes = nextRtimes;
+        tetrisInit(tetrisNext,rTimes);
         tetrisNext.draw()
     }else{
         levels = 0;
