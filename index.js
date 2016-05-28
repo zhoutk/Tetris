@@ -10,6 +10,7 @@ var randNum, nextNum, rTimes = 0, nextRtimes = 0, tetris, tetrisNext;
 const LVSCS = [0,1,3,6,10]
 var gameState = false, levels = 0, scores = 0;
 var interval, TICKVAL = 450, STEPVAL = 50, STEP = 0;
+var isAutoPlay = false;
 
 function tetrisInit(tetris, rTimes){
     for(let i = 0; i < rTimes; i++){
@@ -61,12 +62,43 @@ function generateNext(){
         document.getElementById('playControl').onclick = playButtonClick;
         document.getElementById('playControl').onmouseout = cursorMoveOutplayButton;
         document.getElementById('playControl').onmouseover = cursorOverPlayButton;
+        document.getElementById('autoPlay').disabled = "disabled";
+        document.getElementById('autoPlay').checked = "";
 
         ctx.save()
         ctx.fillStyle = "yellow";
         ctx.font = "bold 30px sans-serif";
         ctx.fillText("游戏结束！",80,260);
         ctx.restore();
+    }
+}
+
+const MOVEOPS = ['moveLeft','moveRight']
+var opList = []
+
+class Opration{
+    constructor(op,num){
+        this.op = op;
+        this.num = num;
+    }
+}
+
+function getStrategy(){
+    opList.push(new Opration('rotate',Math.floor(Math.random()*4)));
+    opList.push(new Opration(MOVEOPS[Math.floor(Math.random()*2)],Math.floor(Math.random()*6)));
+    opList.push(new Opration('moveDown',1));
+}
+
+function autoTick(){
+    if(opList.length == 0){
+        getStrategy();
+    }else{
+        let op = opList.shift();
+        for(let i=0; i<op.num; i++){
+            tetris[op.op]();
+            if(op.op == 'moveDown')
+                generateNext();
+        }
     }
 }
 
@@ -77,7 +109,7 @@ function tick(){
 }
 
 function keyProess(e){
-    if(gameState){
+    if(gameState && !isAutoPlay){
         switch(e.keyCode){  
             case 37:  //left key up
                 tetris.moveLeft();
@@ -116,12 +148,26 @@ function playButtonClick(){
     document.getElementById('playControl').onclick = false;
     document.getElementById('playControl').onmouseout = false;
     document.getElementById('playControl').onmouseover = false;
+    document.getElementById('autoPlay').disabled = "";
     document.getElementById('playControl').style.backgroundColor = 'gray'
     gameStart();
+}
+
+function autoPlayClick(){
+    isAutoPlay = document.getElementById('autoPlay').checked;
+    if(isAutoPlay){
+        clearInterval(interval)
+        interval = setInterval( autoTick, 100 );
+    }else{
+        clearInterval(interval)
+        interval = setInterval( tick, TICKVAL );
+    }
+    document.getElementById('speedShow').focus();
 }
 
 document.getElementById('playControl').onmouseout = cursorMoveOutplayButton;
 document.getElementById('playControl').onmouseover = cursorOverPlayButton;
 document.getElementById('playControl').onclick = playButtonClick;
+document.getElementById('autoPlay').onclick = autoPlayClick;
 
 // document.body.onload = gameStart();

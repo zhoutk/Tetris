@@ -1,5 +1,5 @@
 .wrap{ 
-	width:425px;
+	width:430px;
     padding-top:10px;
 	margin:0 auto;
 } 
@@ -10,12 +10,18 @@
 }
 
 .rightBlock{
+    margin-left:5px;
     width:122px;
 	float:right;
 }
 
 .rightBlock input{
-    width:120px;
+    width:100px;
+}
+
+.rightBlock #autoPlay{
+    width:20px;
+    margin-left:20px;
 }
 
 #block{
