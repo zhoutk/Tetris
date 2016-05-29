@@ -44,6 +44,24 @@ class Tetris {
             }
         }
     }
+    cleanCount(){
+        let h = 19, levelCount = 0;
+        while(h >= 0){
+            let count = 0;
+            for(let i = 0; i< 10; i++){
+                if(this.canSee(i,h)){
+                    count++;
+                }
+            } 
+            if(count == 0){
+                levelCount++;
+            }else if(count == 10){
+                break;
+            }
+            h--;
+        }
+        return levelCount;
+    }
     cleanup(){
         let h = 19, levelCount = 0;
         while(h >= 0){

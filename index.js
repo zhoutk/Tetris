@@ -73,9 +73,6 @@ function generateNext(){
     }
 }
 
-const MOVEOPS = ['moveLeft','moveRight']
-var opList = [], bestEva;
-
 class Opration{
     constructor(op,num){
         this.op = op;
@@ -91,6 +88,9 @@ class Evaluation{
     }
 }
 
+const MOVEOPS = ['moveLeft','moveRight']
+var opList = [];
+
 function rightOver(t){
     for(let i = 0; i < 4; i++){
         for(let j = 0; j < 4; j++){
@@ -103,12 +103,25 @@ function rightOver(t){
 }
 
 function evaluate(t){
-    let ct = t.y;
+    let ct = t.y * 2, hole = 10;
+    // ct += 10 * t.cleanCount();
     for(let i = 0; i < 4; i++){
         for(let j = 0; j < 4; j++){
             if(t.data[i][j]){
-                if(t.canSee(t.x +i, t.y + j + 1))
-                    ct -= 5;
+                if(t.y > 15){
+                    hole = 10;
+                }else if(t.y > 10){
+                    hole = 5;
+                }else if(t.y > 5){
+                    hole = 1;
+                }else{
+                    hole = 0;
+                }
+                let k = 1;
+                while(t.canSee(t.x +i, t.y + j + k)){
+                    ct -= hole;
+                    k++;
+                }
                 for(let k=0; k<4; k++){
                     switch(k){
                         case 0: ct += t.canSee(t.x + i + 1, t.y + j) ? 0 : 1;
@@ -128,7 +141,7 @@ function evaluate(t){
 }
 
 function getStrategy(){
-    let max = 0;
+    let max = 0, bestEva = new Evaluation(0,0,0);
     tetris.erase();
     let tmp = new Tetris(tetris.shape,tetris.ctx,tetris.x,tetris.y,'rgb(1,1,1,1)','rgb(111,111,111)')
     for(let i = 0; i < 4; i++){
@@ -144,24 +157,29 @@ function getStrategy(){
             tmp.rotate();
         while(tmp.moveLeft());
         while(tmp.moveDown());
+        let score = evaluate(tmp);
+        if(score > max){
+            max = score;
+            bestEva = new Evaluation(r,tmp.x,max)
+        }
         while(rightOver(tmp)){
-            let score = evaluate(tmp);
-            if(score > max){
-                max = score;
-                bestEva = new Evaluation(r,tmp.x,max)
-            }
             if(!tmp.moveRight()){
-                if(!tmp.moveUp()){
-                    max = 20;
-                    bestEva = new Evaluation(r,tmp.x,max)
-                    tmp.erase();
-                    break;
+                while(!tmp.moveUp()){
+                    tmp.moveLeft();
                 }
             }else{
                 while(tmp.moveDown());
+                let score = evaluate(tmp);
+                if(score > max){
+                    max = evaluate(tmp);
+                    bestEva = new Evaluation(r,tmp.x,max)
+                }else if(score == max){
+                    if(Math.floor(Math.random()*2))
+                        bestEva = new Evaluation(r,tmp.x,max)
+                }
             }
         }
-        let score = evaluate(tmp);
+        score = evaluate(tmp);
         if(score > max){
             max = score;
             bestEva = new Evaluation(r,tmp.x,max)
