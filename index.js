@@ -74,7 +74,7 @@ function generateNext(){
 }
 
 const MOVEOPS = ['moveLeft','moveRight']
-var opList = []
+var opList = [], bestEva;
 
 class Opration{
     constructor(op,num){
@@ -83,10 +83,99 @@ class Opration{
     }
 }
 
+class Evaluation{
+    constructor(r,x,eva){
+        this.x = x;
+        this.r = r;
+        this.eva = eva;
+    }
+}
+
+function rightOver(t){
+    for(let i = 0; i < 4; i++){
+        for(let j = 0; j < 4; j++){
+            if(t.data[i][j] && t.x + i >= 9){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function evaluate(t){
+    let ct = t.y;
+    for(let i = 0; i < 4; i++){
+        for(let j = 0; j < 4; j++){
+            if(t.data[i][j]){
+                if(t.canSee(t.x +i, t.y + j + 1))
+                    ct -= 5;
+                for(let k=0; k<4; k++){
+                    switch(k){
+                        case 0: ct += t.canSee(t.x + i + 1, t.y + j) ? 0 : 1;
+                        break;
+                        case 1: ct += t.canSee(t.x + i - 1, t.y + j) ? 0 : 1;
+                        break;
+                        case 2: ct += t.canSee(t.x + i, t.y + j + 1) ? 0 : 1;
+                        break;
+                        case 3: ct += t.canSee(t.x + i, t.y + j - 1) ? 0 : 1;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ct;
+}
+
 function getStrategy(){
-    opList.push(new Opration('rotate',Math.floor(Math.random()*4)));
-    opList.push(new Opration(MOVEOPS[Math.floor(Math.random()*2)],Math.floor(Math.random()*6)));
+    let max = 0;
+    tetris.erase();
+    let tmp = new Tetris(tetris.shape,tetris.ctx,tetris.x,tetris.y,'rgb(1,1,1,1)','rgb(111,111,111)')
+    for(let i = 0; i < 4; i++){
+        for(let j = 0; j < 4; j++){
+            tmp.data[i][j] = tetris.data[i][j];  
+        }
+    }
+    for(let r = 0; r < 4; r++){
+        tmp.erase();
+        tmp.x = tetris.x;
+        tmp.y = tetris.y;
+        if(r > 0)
+            tmp.rotate();
+        while(tmp.moveLeft());
+        while(tmp.moveDown());
+        while(rightOver(tmp)){
+            let score = evaluate(tmp);
+            if(score > max){
+                max = score;
+                bestEva = new Evaluation(r,tmp.x,max)
+            }
+            if(!tmp.moveRight()){
+                if(!tmp.moveUp()){
+                    max = 20;
+                    bestEva = new Evaluation(r,tmp.x,max)
+                    tmp.erase();
+                    break;
+                }
+            }else{
+                while(tmp.moveDown());
+            }
+        }
+        let score = evaluate(tmp);
+        if(score > max){
+            max = score;
+            bestEva = new Evaluation(r,tmp.x,max)
+        }
+    }
+    tmp.erase();
+    // console.log(max)
+
+    opList.push(new Opration('rotate',bestEva.r));
+    let moveAct = bestEva.x - tetris.x > 0 ? 1 : 0;
+    let actNum = Math.abs(bestEva.x - tetris.x)
+    opList.push(new Opration(MOVEOPS[moveAct],actNum));
     opList.push(new Opration('moveDown',1));
+
 }
 
 function autoTick(){
@@ -157,7 +246,7 @@ function autoPlayClick(){
     isAutoPlay = document.getElementById('autoPlay').checked;
     if(isAutoPlay){
         clearInterval(interval)
-        interval = setInterval( autoTick, 100 );
+        interval = setInterval( autoTick, 1 );
     }else{
         clearInterval(interval)
         interval = setInterval( tick, TICKVAL );

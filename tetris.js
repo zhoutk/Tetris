@@ -28,13 +28,15 @@ const SOUNDS = {
 }
 
 class Tetris {
-    constructor(shape,ctx,x,y){
+    constructor(shape,ctx,x,y,color,stroke){
         this.data = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
         this.shape = shape || 0;
         this.ctx = ctx;
+        this.color = color || COLORS[shape]
         this.x =  x || 0;
         this.y =  y || 0;
-        this.block = new Block(ctx, COLORS[shape]);
+        this.stroke = stroke || 'white'
+        this.block = new Block(ctx, this.color, this.stroke);
 
         for(let i = 0; i < SHAPES[this.shape].length; i++){
             if(SHAPES[this.shape][i]){
@@ -80,6 +82,21 @@ class Tetris {
         }
         return levelCount;
     }
+    moveUp(){
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(this.data[i][j] && (this.data[i][j - 1] == 0)){
+                    if(!this.canSee(this.x + i, this.y + j - 1)){
+                        return false;
+                    }
+                }
+            }
+        }
+        this.erase();
+        this.y--;
+        this.draw();
+        return true;
+    }
     moveNext(){
         let flag = true;
         for(let i = 0; i < 4; i++){
@@ -101,19 +118,21 @@ class Tetris {
             this.draw();
             return true;
         }else{
-            let level = this.cleanup();
-            if(level > 0){
-                levels += level;
-                scores += LVSCS[level]
-                document.getElementById('levelShow').value = levels;
-                document.getElementById('scoreShow').value = scores;
-                if(Math.floor(scores / STEPVAL) != STEP){
-                    clearInterval(interval)
-                    interval = setInterval( tick, TICKVAL - ++STEP * STEPVAL );
-                    document.getElementById('speedShow').value = STEP + 1;
+            if(this.color != 'rgb(1,1,1,1)'){
+                let level = this.cleanup();
+                if(level > 0){
+                    levels += level;
+                    scores += LVSCS[level]
+                    document.getElementById('levelShow').value = levels;
+                    document.getElementById('scoreShow').value = scores;
+                    if(!isAutoPlay && Math.floor(scores / STEPVAL) != STEP){
+                        clearInterval(interval)
+                        interval = setInterval( tick, TICKVAL - ++STEP * STEPVAL );
+                        document.getElementById('speedShow').value = STEP + 1;
+                    }
+                }else{
+                    SOUNDS['down'].play()
                 }
-            }else{
-                SOUNDS['down'].play()
             }
             return false;
         }
