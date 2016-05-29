@@ -107,7 +107,7 @@ function evaluate(t){
     for(let i = 0; i < 4; i++){
         for(let j = 0; j < 4; j++){
             if(t.data[i][j]){
-                if(t.y + j > 8 && t.canSee(t.x +i, t.y + j + 1))
+                if(t.canSee(t.x +i, t.y + j + 1))
                     ct -= 5;
                 for(let k=0; k<4; k++){
                     switch(k){
