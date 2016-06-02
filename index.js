@@ -1,6 +1,7 @@
 "use strict";
 
 var Tetris = require('./tetris')
+var Tetest = require('./tetest')
 var canvasTeteris = document.getElementById('tetris'),  //获取canvas元素
     ctx = canvasTeteris.getContext('2d');  //获取画图环境，指明为2d
 var canvasPreview = document.getElementById('block'),  
@@ -168,23 +169,23 @@ function evaluate2(t){
 function getStrategy(){
     let max = 0, bestEva = new Evaluation(0,0,0);
     tetris.erase();
-    let tmp = new Tetris(tetris.shape,tetris.ctx,tetris.x,tetris.y,'rgb(1,1,1,1)','rgb(111,111,111)')
+    let tmp = new Tetest(tetris.shape,tetris.ctx,tetris.x,tetris.y,'rgb(1,1,1,1)','rgb(111,111,111)')
     for(let i = 0; i < 4; i++){
         for(let j = 0; j < 4; j++){
             tmp.data[i][j] = tetris.data[i][j];  
         }
     }
     for(let r = 0; r < 4; r++){
-        tmp.erase();
         tmp.x = tetris.x;
         tmp.y = tetris.y;
         if(r > 0)
             tmp.rotate();
         while(tmp.moveLeft());
         do{
-            tmp.erase();
-            while(tmp.moveDown());
+            tmp.moveDown();
+            tmp.draw();
             let score = evaluate(tmp);
+            tmp.erase();
             if(score > max){
                 max = score;
                 bestEva = new Evaluation(r,tmp.x,max)
@@ -192,7 +193,6 @@ function getStrategy(){
                 if(Math.floor(Math.random()*2) == 1)
                     bestEva = new Evaluation(r,tmp.x,max)
             }
-            tmp.erase();
             tmp.y = tetris.y;
         }while(tmp.moveRight())
     }
