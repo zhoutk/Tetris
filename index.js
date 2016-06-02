@@ -109,7 +109,7 @@ function evaluate(t){
     let ct = t.y ;
     let cct = t.cleanCount();
     if(cct > 1)
-        ct += 10 * (cct - 1);
+        ct += 10 * (cct );
     for(let i = 0; i < 4; i++){
         for(let j = 0; j < 4; j++){
             if(t.data[i][j]){
