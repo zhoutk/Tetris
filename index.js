@@ -11,7 +11,7 @@ var randNum, nextNum, rTimes = 0, nextRtimes = 0, tetris, tetrisNext;
 const LVSCS = [0,1,3,6,10]
 var gameState = false, levels = 0, scores = 0;
 var interval, TICKVAL = 450, STEPVAL = 50, STEP = 0;
-var isAutoPlay = false;
+var isAutoPlay = false, isAudioOpen = false;
 
 function tetrisInit(tetris, rTimes){
     for(let i = 0; i < rTimes; i++){
@@ -65,6 +65,8 @@ function generateNext(){
         document.getElementById('playControl').onmouseover = cursorOverPlayButton;
         document.getElementById('autoPlay').disabled = "disabled";
         document.getElementById('autoPlay').checked = "";
+        document.getElementById('audioOpen').disabled = "disabled";
+        document.getElementById('audioOpen').checked = "";
 
         ctx.save()
         ctx.fillStyle = "yellow";
@@ -261,11 +263,17 @@ function cursorOverPlayButton(){
     document.getElementById('playControl').style.backgroundColor = 'red'
 }
 
+function audioOpenClick(){
+    isAudioOpen = document.getElementById('audioOpen').checked;
+    document.getElementById('speedShow').focus();
+}
+
 function playButtonClick(){
     document.getElementById('playControl').onclick = false;
     document.getElementById('playControl').onmouseout = false;
     document.getElementById('playControl').onmouseover = false;
     document.getElementById('autoPlay').disabled = "";
+    document.getElementById('audioOpen').disabled = "";
     document.getElementById('playControl').style.backgroundColor = 'gray'
     gameStart();
 }
@@ -286,5 +294,6 @@ document.getElementById('playControl').onmouseout = cursorMoveOutplayButton;
 document.getElementById('playControl').onmouseover = cursorOverPlayButton;
 document.getElementById('playControl').onclick = playButtonClick;
 document.getElementById('autoPlay').onclick = autoPlayClick;
+document.getElementById('audioOpen').onclick = audioOpenClick;
 
 // document.body.onload = gameStart();

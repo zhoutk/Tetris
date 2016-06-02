@@ -24,6 +24,11 @@
     margin-left:20px;
 }
 
+.rightBlock #audioOpen{
+    width:20px;
+    margin-left:20px;
+}
+
 #block{
 	background:#000;
 }
