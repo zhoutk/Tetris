@@ -113,15 +113,6 @@ function evaluate(t){
     for(let i = 0; i < 4; i++){
         for(let j = 0; j < 4; j++){
             if(t.data[i][j]){
-                if(t.canSee(t.x +i, t.y + j + 1)){
-                    ct -= 5;
-                    let k = 2;
-                    while(t.y+j+k++ <= 19)
-                        if(t.canSee(t.x +i, t.y + j + k)){
-                        ct -= 3;
-                        break;
-                    }
-                }
                 for(let k=0; k<4; k++){
                     switch(k){
                         case 0: ct += t.canSee(t.x + i + 1, t.y + j) ? 0 : 1;
@@ -132,6 +123,20 @@ function evaluate(t){
                         break;
                         case 3: ct += t.canSee(t.x + i, t.y + j - 1) ? 0 : 1;
                         break;
+                    }
+                }
+                if(j ==3 || t.data[i][j+1] == 0){
+                    if(t.canSee(t.x +i, t.y + j + 1)){
+                        ct -= 5;
+                    }else{
+                        let k = 2;
+                        while(t.y+j+k <= 19){
+                            if(t.canSee(t.x +i, t.y + j + k)){
+                                ct -= 3;
+                                break;
+                            }
+                            k++;
+                        }
                     }
                 }
             }
