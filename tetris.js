@@ -136,27 +136,52 @@ class Tetris {
             this.draw();
             return true;
         }else{
-            if(this.color != 'rgb(1,1,1,1)'){
-                let level = this.cleanup();
-                if(level > 0){
-                    levels += level;
-                    scores += LVSCS[level]
-                    document.getElementById('levelShow').value = levels;
-                    document.getElementById('scoreShow').value = scores;
-                    if(!isAutoPlay && Math.floor(scores / STEPVAL) != STEP){
-                        clearInterval(interval)
-                        interval = setInterval( tick, TICKVAL - ++STEP * STEPVAL );
-                        document.getElementById('speedShow').value = STEP + 1;
-                    }
-                }else{
-                    SOUNDS['down'].play()
+            let level = this.cleanup();
+            if(level > 0){
+                levels += level;
+                scores += LVSCS[level]
+                document.getElementById('levelShow').value = levels;
+                document.getElementById('scoreShow').value = scores;
+                if(!isAutoPlay && Math.floor(scores / STEPVAL) != STEP){
+                    clearInterval(interval)
+                    interval = setInterval( tick, TICKVAL - ++STEP * STEPVAL );
+                    document.getElementById('speedShow').value = STEP + 1;
                 }
+            }else{
+                SOUNDS['down'].play()
             }
             return false;
         }
     }
     moveDown(){
-        while(this.moveNext());
+        let yMax = 19;
+        for(let i = 0; i < 4; i++){
+            for(let j = 0; j < 4; j++){
+                if(this.data[i][j] && (j ==3 || this.data[i][j+1] == 0)){
+                    let k = 0;
+                    while(this.canSee(this.x + i, this.y + ++k + j));
+                    if(k - 1 < yMax)
+                        yMax = k - 1;
+                }
+            }
+        }
+        this.erase();
+        this.y += yMax;
+        this.draw();
+        let level = this.cleanup();
+        if(level > 0){
+            levels += level;
+            scores += LVSCS[level]
+            document.getElementById('levelShow').value = levels;
+            document.getElementById('scoreShow').value = scores;
+            if(!isAutoPlay && Math.floor(scores / STEPVAL) != STEP){
+                clearInterval(interval)
+                interval = setInterval( tick, TICKVAL - ++STEP * STEPVAL );
+                document.getElementById('speedShow').value = STEP + 1;
+            }
+        }else{
+            SOUNDS['down'].play()
+        }
     }
     moveRight(){
         for(let i = 0; i < 4; i++){
