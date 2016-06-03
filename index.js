@@ -109,7 +109,7 @@ function evaluate(t){
     let ct = t.y ;
     let cct = t.cleanCount();
     if(cct > 1)
-        ct += 10 * (cct );
+        ct += 10 * (cct - 1);
     for(let i = 0; i < 4; i++){
         for(let j = 0; j < 4; j++){
             if(t.data[i][j]){
@@ -127,12 +127,13 @@ function evaluate(t){
                 }
                 if(j ==3 || t.data[i][j+1] == 0){
                     if(t.canSee(t.x +i, t.y + j + 1)){
-                        ct -= 5;
-                    }else{
+                        ct -= 4;
+                    }
+                    else{
                         let k = 2;
                         while(t.y+j+k <= 19){
                             if(t.canSee(t.x +i, t.y + j + k)){
-                                ct -= 3;
+                                ct -= 1;
                                 break;
                             }
                             k++;
