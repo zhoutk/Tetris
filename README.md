@@ -1,4 +1,4 @@
-##项目背景
+## 项目背景
 在折腾ES6，突然想起大学时用c语言写过俄罗斯方块，本项目中主要是利用ES6的Class特性进行面向对象编程。同一时间，我在看约翰.霍兰的《涌现》和KK的《失控》，产生了对人工智能的莫大兴趣，也对面向对象思想有了更深入的理解，终极目标是想写一个自动玩俄罗斯方块的小机器人。
 ##设计思路
 - 全面应用面向对象的设计思想，让功能内聚性强。
@@ -7,7 +7,7 @@
 - 使用html5的canvas来完成，比较象cgi编程。
 - 使用最少的canvas特性，只用了fillRect,strokeRect,getImageData,clearRect等几个函数。
 
-##运行方法
+## 运行方法
 项目采用node.js v6.2.0 + electron v1.1.0 进行桌面开发，因此请先安装相关系统：
 ```
 npm install electron-prebuilt -g
@@ -16,7 +16,7 @@ npm install electron-prebuilt -g
 
 请下载源代码：
 ```
-git clone https://git.oschina.net/zhoutk/Tetris.git
+git clone https://github.com/zhoutk/Tetris
 ```
 进入项目目录：
 ```
@@ -26,11 +26,11 @@ cd Tetris
 ```
 electron .
 ```
-##交流博客
+## 交流博客
 我会把心得体会写在我的博客中，地址如下：
 ```
 https://segmentfault.com/blog/zhoutk
 ```
-##最新进度
+## 最新进度
 - 可以手动玩俄罗斯方块
 - 提供自动模式，简单评估算法，平均大概能消500行左右，现最高记录消除1398行。
