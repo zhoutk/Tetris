@@ -2,7 +2,19 @@
   "name": "tetris",
   "version": "1.0.0",
   "main": "main.js",
-  "dependencies": {
+  "devDependencies": {
     "electron": "^6.0.0"
+  },
+  "build": {
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
   }
 }

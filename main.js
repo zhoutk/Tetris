@@ -4,6 +4,9 @@ const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
+const Menu = electron.Menu
+Menu.setApplicationMenu(null)
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -12,8 +15,9 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800, 
-    height: 660,
+    height: 680,
     transparent: false,
+    
     webPreferences: {
       nodeIntegration: true
     }
