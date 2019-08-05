@@ -1,5 +1,8 @@
 {
-  "name"    : "Tetris",
-  "version" : "1.0.0",
-  "main"    : "main.js"
+  "name": "tetris",
+  "version": "1.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^6.0.0"
+  }
 }
